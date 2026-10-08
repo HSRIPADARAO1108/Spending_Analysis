@@ -13,7 +13,7 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 
-from db import load
+from db import load, using_local_file
 
 IST = ZoneInfo("Asia/Kolkata")
 MEMBERS = ["Sripada", "My Brother"]
@@ -122,17 +122,31 @@ def send_email(subject, html, text):
         s.sendmail(msg["From"], [x.strip() for x in os.environ["EMAIL_TO"].split(",")], msg.as_string())
 
 
+def require_online_setup():
+    """Stop with a clear error instead of sending an empty (all ₹0) email."""
+    missing = [k for k in ("SMTP_USER", "SMTP_PASS", "EMAIL_TO") if not os.getenv(k)]
+    if missing:
+        sys.exit(f"Missing secrets: {', '.join(missing)}. Add them in GitHub -> Settings -> Secrets -> Actions.")
+    if using_local_file():
+        sys.exit("DATABASE_URL is missing, so there is no data to report. "
+                 "Add it in GitHub -> Settings -> Secrets -> Actions.")
+
+
 def last_month():
     arg = sys.argv[2] if len(sys.argv) > 2 else None
     return pd.Period(arg, "M") if arg else pd.Period(datetime.now(IST).date(), "M") - 1
 
 
 def daily():
+    require_online_setup()
     send_email(*build_daily(datetime.now(IST).date()))
+    print("Daily email sent.")
 
 
 def monthly():
+    require_online_setup()
     send_email(*build_email(last_month()))
+    print("Monthly email sent.")
 
 
 def preview():
