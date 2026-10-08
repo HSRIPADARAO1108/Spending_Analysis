@@ -1,4 +1,3 @@
-import sqlite3
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -6,13 +5,14 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
+from db import add_entry, delete_entries, load
+
 # ---------- Config ----------
 IST = ZoneInfo("Asia/Kolkata")
-DB_PATH = "money.db"
-MEMBERS = ["Sripada", "Vyasa"]
+MEMBERS = ["Sripada", "My Brother"]
 THEME = {
     "Sripada": "linear-gradient(120deg,#6c5ce7,#f06595,#ff922b,#6c5ce7)",
-    "Vyasa": "linear-gradient(120deg,#ff922b,#fcc419,#51cf66,#ff922b)",
+    "My Brother": "linear-gradient(120deg,#ff922b,#fcc419,#51cf66,#ff922b)",
 }
 SPEND_CATS = {
     "Food": ("🍔", "#ff8a3d"), "Travel": ("🚌", "#4dabf7"), "Shopping": ("🛍️", "#f06595"),
@@ -89,41 +89,6 @@ div[role="radiogroup"] label{background:#fff;border-radius:99px;padding:6px 16px
 """,
     unsafe_allow_html=True,
 )
-
-
-# ---------- Database ----------
-def conn():
-    c = sqlite3.connect(DB_PATH)
-    c.execute(
-        """CREATE TABLE IF NOT EXISTS entries(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            member TEXT, type TEXT, category TEXT,
-            amount REAL, note TEXT, date TEXT)"""
-    )
-    return c
-
-
-def add_entry(member, typ, cat, amount, note, d):
-    with conn() as c:
-        c.execute(
-            "INSERT INTO entries(member,type,category,amount,note,date) VALUES(?,?,?,?,?,?)",
-            (member, typ, cat, amount, note, d.isoformat()),
-        )
-
-
-def delete_entries(ids):
-    with conn() as c:
-        c.executemany("DELETE FROM entries WHERE id=?", [(int(i),) for i in ids])
-
-
-def load(member) -> pd.DataFrame:
-    with conn() as c:
-        df = pd.read_sql_query(
-            "SELECT id,type,category,amount,note,date FROM entries WHERE member=? ORDER BY date DESC,id DESC",
-            c, params=(member,),
-        )
-    df["date"] = pd.to_datetime(df["date"])
-    return df
 
 
 # ---------- Helpers ----------
