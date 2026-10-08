@@ -26,8 +26,12 @@ EARN_CATS = {
 ICON = {**{k: v[0] for k, v in EARN_CATS.items()}, **{k: v[0] for k, v in SPEND_CATS.items()}}
 COLOR = {**{k: v[1] for k, v in EARN_CATS.items()}, **{k: v[1] for k, v in SPEND_CATS.items()}}
 
-st.set_page_config(page_title="Family Money Tracker", page_icon="💰", layout="wide",
-                   initial_sidebar_state="collapsed")
+st.set_page_config(
+    page_title="Family Money Tracker",
+    page_icon="💰",
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
 
 st.markdown(
     """
@@ -39,50 +43,74 @@ st.markdown(
 @keyframes floaty{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-12px) rotate(8deg)}}
 @keyframes shine{0%{transform:translateX(-120%)}100%{transform:translateX(220%)}}
 
-.stApp{background:linear-gradient(135deg,#fff7ec,#ffe8f1,#e8e4ff,#e3f9ee,#fff7ec);background-size:400% 400%;animation:drift 22s ease infinite}
-.block-container{max-width:1100px;padding-top:1.2rem;padding-bottom:3rem}
-.hero{position:relative;overflow:hidden;border-radius:26px;padding:20px 22px;color:#fff;margin-bottom:14px;
+/* Global Reset & Viewport Safeguards */
+.stApp{background:linear-gradient(135deg,#fff7ec,#ffe8f1,#e8e4ff,#e3f9ee,#fff7ec);background-size:400% 400%;animation:drift 22s ease infinite;overflow-x:hidden;}
+.block-container{max-width:1200px;padding-top:1rem;padding-bottom:4rem;padding-left:1rem;padding-right:1rem;}
+
+/* Hero Header */
+.hero{position:relative;overflow:hidden;border-radius:24px;padding:24px;color:#fff;margin-bottom:16px;
   background-size:300% 300%;animation:drift 9s ease infinite;box-shadow:0 10px 24px rgba(108,92,231,.28)}
-.hero h1{margin:0;font-size:2rem;font-weight:800;color:#fff;position:relative}
-.hero p{margin:2px 0 0;font-weight:700;position:relative}
-.fl{position:absolute;font-size:1.8rem;animation:floaty 4s ease-in-out infinite;opacity:.85}
+.hero h1{margin:0;font-size:1.85rem;font-weight:800;color:#fff;position:relative;word-break:break-word;}
+.hero p{margin:4px 0 0;font-weight:700;position:relative;font-size:0.95rem;opacity:0.95;}
+.fl{position:absolute;font-size:1.6rem;animation:floaty 4s ease-in-out infinite;opacity:.85}
 .f1{right:6%;top:12%}.f2{right:18%;bottom:8%;animation-delay:1s}.f3{right:30%;top:20%;animation-delay:2s}
-.tile{position:relative;overflow:hidden;border-radius:22px;padding:16px 18px;color:#fff;margin-bottom:10px;
-  box-shadow:0 8px 18px rgba(0,0,0,.12);animation:pop .6s ease both}
+
+/* Financial Dashboard Tiles */
+.tile{position:relative;overflow:hidden;border-radius:20px;padding:16px;color:#fff;margin-bottom:12px;
+  box-shadow:0 8px 18px rgba(0,0,0,.12);animation:pop .6s ease both;width:100%;}
 .tile::after{content:"";position:absolute;top:0;left:0;width:40%;height:100%;
   background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);animation:shine 4.5s ease-in-out infinite}
-.tile .l{font-weight:700;opacity:.95}
-.tile .v{font-size:2rem;font-weight:800;line-height:1.15;word-break:break-word}
-.tile .m{font-weight:700;font-size:.9rem;opacity:.95;margin-top:2px}
+.tile .l{font-weight:700;opacity:.95;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.5px;}
+.tile .v{font-size:1.75rem;font-weight:800;line-height:1.2;word-break:break-word;margin-top:4px;}
+.tile .m{font-weight:700;font-size:.85rem;opacity:.95;margin-top:4px}
 .earn{background:linear-gradient(135deg,#12b886,#63e6be)}
 .spend{background:linear-gradient(135deg,#ff5d73,#ffa94d);animation-delay:.1s}
 .net{background:linear-gradient(90deg,#6c5ce7,#f06595);animation:pop .6s ease .2s both,pulse 3s ease-in-out 1s infinite}
 .netneg{background:linear-gradient(90deg,#e03131,#862e9c);animation:pop .6s ease .2s both}
-.bar{height:18px;border-radius:99px;overflow:hidden;display:flex;background:linear-gradient(90deg,#ff5d73,#ffa94d);margin:4px 0 2px;box-shadow:inset 0 2px 4px rgba(0,0,0,.15)}
+
+/* Progress & Breakdown Bars */
+.bar{height:16px;border-radius:99px;overflow:hidden;display:flex;background:linear-gradient(90deg,#ff5d73,#ffa94d);margin:8px 0 4px;box-shadow:inset 0 2px 4px rgba(0,0,0,.15);width:100%;}
 .bar i{display:block;height:100%;background:linear-gradient(90deg,#12b886,#63e6be);animation:grow 1.2s ease-out}
-.barl{display:flex;justify-content:space-between;font-weight:700;font-size:.85rem;margin-bottom:10px}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 12px}
-.chip{border-radius:16px;padding:8px 14px;color:#fff;font-weight:800;box-shadow:0 4px 10px rgba(0,0,0,.12);animation:pop .5s ease both;transition:transform .2s}
-.chip:hover{transform:translateY(-4px) scale(1.06)}
-.chip small{display:block;font-weight:600;opacity:.95}
-.top{background:linear-gradient(90deg,#ffd43b,#ff922b);border-radius:16px;padding:10px 14px;font-weight:800;color:#2a1b3d;margin-bottom:10px;animation:pop .5s ease both}
-h2,h3{color:#5f3dc4 !important}
-button[data-baseweb="tab"]{background:#fff;border-radius:99px;margin-right:6px;padding:6px 14px;font-weight:800;box-shadow:0 3px 8px rgba(0,0,0,.08);transition:transform .2s}
+.barl{display:flex;justify-content:space-between;font-weight:700;font-size:0.8rem;margin-bottom:14px;color:#4a5568;}
+
+/* Category Chips & Highlights */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 16px}
+.chip{border-radius:14px;padding:8px 12px;color:#fff;font-weight:800;font-size:0.85rem;box-shadow:0 4px 10px rgba(0,0,0,.12);animation:pop .5s ease both;transition:transform .2s;flex:1 1 120px;text-align:center;}
+.chip:hover{transform:translateY(-2px) scale(1.03)}
+.chip small{display:block;font-weight:600;opacity:.95;font-size:0.75rem;margin-top:2px;}
+.top{background:linear-gradient(90deg,#ffd43b,#ff922b);border-radius:14px;padding:10px 14px;font-weight:800;color:#2a1b3d;margin-bottom:12px;animation:pop .5s ease both;font-size:0.9rem;}
+
+/* Typography & Interactive Tabs */
+h2,h3{color:#5f3dc4 !important;font-weight:800 !important;}
+button[data-baseweb="tab"]{background:#fff;border-radius:99px;margin-right:6px;padding:6px 14px;font-weight:800;box-shadow:0 3px 8px rgba(0,0,0,.08);transition:transform .2s;white-space:nowrap;}
 button[data-baseweb="tab"]:hover{transform:translateY(-2px)}
 button[data-baseweb="tab"][aria-selected="true"]{background:linear-gradient(90deg,#6c5ce7,#f06595);color:#fff}
 button[data-baseweb="tab"][aria-selected="true"] p{color:#fff}
 [data-baseweb="tab-highlight"],[data-baseweb="tab-border"]{display:none}
-.stButton>button,[data-testid="stFormSubmitButton"]>button,.stDownloadButton>button{
-  background:linear-gradient(90deg,#ffc43d,#ff922b);color:#2a1b3d;font-weight:800;border:0;border-radius:14px;min-height:46px;transition:transform .15s}
-.stButton>button:active,[data-testid="stFormSubmitButton"]>button:active{transform:scale(.96)}
-div[role="radiogroup"]{gap:8px}
-div[role="radiogroup"] label{background:#fff;border-radius:99px;padding:6px 16px;box-shadow:0 3px 8px rgba(0,0,0,.08)}
 
-@media (max-width:640px){
-  .block-container{padding-left:.8rem;padding-right:.8rem}
-  .hero{padding:16px}.hero h1{font-size:1.5rem}.fl{font-size:1.3rem}
-  .tile .v{font-size:1.6rem}
-  button[data-baseweb="tab"]{padding:5px 10px;font-size:.85rem}
+/* Buttons & Inputs */
+.stButton>button,[data-testid="stFormSubmitButton"]>button,.stDownloadButton>button{
+  background:linear-gradient(90deg,#ffc43d,#ff922b);color:#2a1b3d;font-weight:800;border:0;border-radius:14px;min-height:46px;width:100%;transition:transform .15s;box-shadow:0 4px 12px rgba(255,146,43,.25)}
+.stButton>button:active,[data-testid="stFormSubmitButton"]>button:active{transform:scale(.96)}
+div[role="radiogroup"]{gap:8px;display:flex;flex-wrap:wrap;}
+div[role="radiogroup"] label{background:#fff;border-radius:99px;padding:6px 16px;box-shadow:0 3px 8px rgba(0,0,0,.08);cursor:pointer;}
+
+/* Tables and Dataframe container safeguards */
+[data-testid="stDataFrame"] {width:100%;overflow-x:auto;}
+
+/* Responsive Media Queries for Mobile Fine-Tuning */
+@media (max-width: 640px){
+  .block-container{padding-top:.5rem;padding-left:.5rem;padding-right:.5rem;padding-bottom:2rem;}
+  .hero{padding:16px;border-radius:18px;}
+  .hero h1{font-size:1.4rem;}
+  .hero p{font-size:0.85rem;}
+  .fl{font-size:1.2rem;}
+  .tile{padding:12px 14px;border-radius:16px;}
+  .tile .v{font-size:1.45rem;}
+  .tile .l{font-size:0.75rem;}
+  button[data-baseweb="tab"]{padding:5px 10px;font-size:0.8rem;}
+  .chips{gap:6px;}
+  .chip{flex:1 1 100px;padding:6px 10px;font-size:0.8rem;}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
 </style>
@@ -91,7 +119,6 @@ div[role="radiogroup"] label{background:#fff;border-radius:99px;padding:6px 16px
 )
 
 
-# ---------- Helpers ----------
 def inr(x):
     return f"₹{x:,.2f}".replace(".00", "")
 
@@ -115,11 +142,17 @@ def tiles(df, label):
     e = df.loc[df.type == "earn", "amount"].sum()
     s = df.loc[df.type == "spend", "amount"].sum()
     n = e - s
-    c1, c2, c3 = st.columns(3)
-    c1.markdown(f'<div class="tile earn"><div class="l">💰 Earned {label}</div><div class="v">{inr(e)}</div></div>', unsafe_allow_html=True)
-    c2.markdown(f'<div class="tile spend"><div class="l">🛍️ Spent {label}</div><div class="v">{inr(s)}</div></div>', unsafe_allow_html=True)
-    cls, word, ico = ("net", "Left over", "🎉") if n >= 0 else ("netneg", "Spent more than earned", "⚠️")
-    c3.markdown(f'<div class="tile {cls}"><div class="l">{ico} {word}</div><div class="v">{inr(abs(n))}</div><div class="m">{mood(e, s)}</div></div>', unsafe_allow_html=True)
+    
+    # Use responsive Streamlit columns that stack nicely on mobile viewports
+    c1, c2, c3 = st.columns(3, gap="small")
+    with c1:
+        st.markdown(f'<div class="tile earn"><div class="l">💰 Earned {label}</div><div class="v">{inr(e)}</div></div>', unsafe_allow_html=True)
+    with c2:
+        st.markdown(f'<div class="tile spend"><div class="l">🛍️ Spent {label}</div><div class="v">{inr(s)}</div></div>', unsafe_allow_html=True)
+    with c3:
+        cls, word, ico = ("net", "Left over", "🎉") if n >= 0 else ("netneg", "Spent more", "⚠️")
+        st.markdown(f'<div class="tile {cls}"><div class="l">{ico} {word}</div><div class="v">{inr(abs(n))}</div><div class="m">{mood(e, s)}</div></div>', unsafe_allow_html=True)
+    
     pct = 50 if e + s == 0 else e / (e + s) * 100
     st.markdown(f'<div class="bar"><i style="width:{pct}%"></i></div><div class="barl"><span style="color:#0a8f6b">Earned {pct:.0f}%</span><span style="color:#e0364f">Spent {100 - pct:.0f}%</span></div>', unsafe_allow_html=True)
 
@@ -130,18 +163,20 @@ def category_section(df, key):
         st.info("No spending in this period yet.")
         return
     top = sp.iloc[0]
-    a, b = st.columns([1, 1])
+    
+    # Responsive two-column split for category breakdown & charts
+    a, b = st.columns([1, 1], gap="medium")
     with a:
         st.markdown(f'<div class="top">🏆 Biggest spend: {ICON.get(top.category, "")} {top.category} · {inr(top.amount)}</div>', unsafe_allow_html=True)
         chips = "".join(
-            f'<div class="chip" style="background:{COLOR.get(r.category, "#888")};animation-delay:{i * 0.07}s">{ICON.get(r.category, "")} {r.category}<small>{inr(r.amount)}</small></div>'
+            f'<div class="chip" style="background:{COLOR.get(r.category, "#888")};animation-delay:{i * 0.05}s">{ICON.get(r.category, "")} {r.category}<small>{inr(r.amount)}</small></div>'
             for i, r in enumerate(sp.itertuples())
         )
         st.markdown(f'<div class="chips">{chips}</div>', unsafe_allow_html=True)
     with b:
         fig = px.pie(sp, names="category", values="amount", hole=0.5, color="category", color_discrete_map=COLOR)
         fig.update_traces(textinfo="percent+label", marker=dict(line=dict(color="#fff", width=2)))
-        fig.update_layout(height=320, margin=dict(t=10, b=10, l=10, r=10), showlegend=False, paper_bgcolor="rgba(0,0,0,0)")
+        fig.update_layout(height=300, margin=dict(t=10, b=10, l=10, r=10), showlegend=False, paper_bgcolor="rgba(0,0,0,0)")
         st.plotly_chart(fig, use_container_width=True, key=key)
 
 
@@ -163,13 +198,18 @@ def entries_table(df):
 
 
 def chart_style(fig, legend_below=True):
-    fig.update_layout(height=340, margin=dict(t=10, b=10, l=10, r=10), legend_title_text="", xaxis_title=None,
-                      legend=dict(orientation="h", y=-0.25) if legend_below else {},
-                      paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(255,255,255,.6)")
+    fig.update_layout(
+        height=320,
+        margin=dict(t=10, b=10, l=10, r=10),
+        legend_title_text="",
+        xaxis_title=None,
+        legend=dict(orientation="h", y=-0.3) if legend_below else {},
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(255,255,255,.6)"
+    )
     return fig
 
 
-# ---------- Header + member ----------
 now = datetime.now(IST)
 member = st.radio("Who?", MEMBERS, horizontal=True, label_visibility="collapsed")
 h = now.hour
@@ -194,7 +234,7 @@ today_spend = df[(df.date.dt.date == today) & (df.type == "spend")]
 if now.hour >= 22 and today_spend.empty:
     st.warning(f"🔔 It's past 10 PM. Add today's spending for {member}!")
 
-# ---------- Tabs ----------
+
 t_today, t_add, t_month, t_year = st.tabs(["🌞 Today", "➕ Add", "📅 Month", "🗓️ 1 Year"])
 
 with t_today:
@@ -210,10 +250,10 @@ with t_add:
     typ = st.radio("Type", ["spend", "earn"], format_func=lambda t: "🛍️ Spent" if t == "spend" else "💰 Earned", horizontal=True)
     cats = list(SPEND_CATS if typ == "spend" else EARN_CATS)
     with st.form("add", clear_on_submit=True):
-        c1, c2 = st.columns(2)
+        c1, c2 = st.columns(2, gap="small")
         amount = c1.number_input("Amount (₹)", min_value=0.0, step=10.0)
         cat = c2.selectbox("Category", cats, format_func=lambda c: f"{ICON[c]} {c}")
-        c3, c4 = st.columns(2)
+        c3, c4 = st.columns(2, gap="small")
         d = c3.date_input("Date", value=today, max_value=today)
         note = c4.text_input("Note (optional)")
         if st.form_submit_button("Add entry", use_container_width=True):
@@ -265,9 +305,9 @@ with t_year:
     table = piv[["earn", "spend", "left"]].rename(columns={"earn": "Earned", "spend": "Spent", "left": "Left"})
     table.loc["TOTAL"] = table.sum()
     sty = (table.style.format("₹{:,.0f}")
-           .set_properties(subset=["Earned"], **{"background-color": "#d3f9d8", "color": "#0a8f6b", "font-weight": "700"})
-           .set_properties(subset=["Spent"], **{"background-color": "#ffe3e3", "color": "#e0364f", "font-weight": "700"})
-           .set_properties(subset=["Left"], **{"background-color": "#e5dbff", "color": "#5f3dc4", "font-weight": "700"}))
+            .set_properties(subset=["Earned"], **{"background-color": "#d3f9d8", "color": "#0a8f6b", "font-weight": "700"})
+            .set_properties(subset=["Spent"], **{"background-color": "#ffe3e3", "color": "#e0364f", "font-weight": "700"})
+            .set_properties(subset=["Left"], **{"background-color": "#e5dbff", "color": "#5f3dc4", "font-weight": "700"}))
     st.dataframe(sty, use_container_width=True)
 
     st.subheader("Full expenditure by category")
