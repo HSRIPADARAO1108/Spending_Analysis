@@ -9,10 +9,10 @@ import streamlit as st
 # ---------- Config ----------
 IST = ZoneInfo("Asia/Kolkata")
 DB_PATH = "money.db"
-MEMBERS = ["Sripada", "My Brother"]
+MEMBERS = ["Sripada", "Vyasa"]
 THEME = {
     "Sripada": "linear-gradient(120deg,#6c5ce7,#f06595,#ff922b,#6c5ce7)",
-    "My Brother": "linear-gradient(120deg,#ff922b,#fcc419,#51cf66,#ff922b)",
+    "Vyasa": "linear-gradient(120deg,#ff922b,#fcc419,#51cf66,#ff922b)",
 }
 SPEND_CATS = {
     "Food": ("🍔", "#ff8a3d"), "Travel": ("🚌", "#4dabf7"), "Shopping": ("🛍️", "#f06595"),
